@@ -1,43 +1,72 @@
-# Buscador de competidores de mitología
+# Buscador de competidores de mitología (YouTube + Facebook)
 
 Sistema para encontrar canales de mitología en inglés que se puedan clonar
-con Viral Clone. Cubre YouTube, TikTok y Facebook, y evita duplicar
-creadores que suben lo mismo en varias plataformas.
+con Viral Clone. Solo YouTube y Facebook. Evita duplicar creadores que
+suben lo mismo en las dos plataformas.
 
 ## Qué hay aquí
 
 | Archivo | Para qué sirve |
 |---|---|
-| `data/creators.csv` | La lista de canales encontrados. Es el archivo que consultas. |
-| `tools/discover.py` | El rastreador. Cada vez que se ejecuta, busca canales nuevos y actualiza la lista. |
-| `tools/keywords_en.txt` | Las palabras de búsqueda. Puedes añadir o quitar las que quieras. |
-| `data/seeds_*.csv` | Hallazgos de investigación web (sobre todo Facebook, que no se puede rastrear en directo). |
+| `data/creators.csv` | La lista final de canales. Es el archivo que consultas. |
+| `data/candidatos.json` | Resultado intermedio del escaneo (datos crudos). |
+| `data/seeds_*.csv` | Páginas de Facebook halladas por investigación web. |
+| `tools/discover.py` | El rastreador. |
+| `tools/keywords_en.txt` | Las palabras de búsqueda. Añade o quita las que quieras. |
+
+## Filtros de calidad
+
+Un canal solo entra en la lista si cumple TODO esto:
+
+1. **Potente**: 20.000 seguidores o más.
+2. **Con recorrido**: 30 vídeos o más.
+3. **Vivo**: último vídeo hace menos de 45 días.
+4. **Con audiencia real**: visitas medias de sus últimos vídeos ≥ 5.000.
+5. **En inglés.**
+6. **De mitología de verdad**: se leen los títulos de sus últimos ~30 vídeos
+   y la mayoría deben ser de mitología. La revisión título a título la hace
+   Claude; sin Claude, decide la mayoría de palabras clave.
+
+Las cifras se cambian con parámetros: `--min-subs`, `--min-videos`,
+`--max-dias`, `--min-visitas`.
 
 ## Cómo leer la lista (`data/creators.csv`)
 
-- **grupo**: identifica al creador. Si dos filas tienen el mismo grupo, son la misma persona en distintas plataformas.
-- **rol**: `principal` es la cuenta más grande del creador. Las marcadas `duplicado_de:...` NO las clones: es el mismo contenido.
-- **seguidores**: tamaño de la cuenta. Un 0 en Facebook significa que no se pudo leer la cifra (Facebook pide iniciar sesión).
-- **senales_mito**: cuántas señales de mitología se detectaron. Cuanto más alto, más seguro que va de mitología.
-- **estado**: empieza en `nuevo`. Cámbialo tú a mano a lo que te sirva (`clonando`, `descartado`...). El rastreador respeta lo que escribas y no lo pisa.
+- Está ordenada de mejor a peor (por visitas medias del creador).
+- **grupo**: mismo grupo = mismo creador en distintas plataformas.
+- **rol**: `principal` es su cuenta más fuerte. Las `duplicado_de:...` NO
+  las clones: es el mismo contenido.
+- **seguidores / videos / ultimo_video / visitas_media**: las métricas del
+  canal. En Facebook, un 0 significa que no se pudo leer la cifra.
+- **titulos_mito**: cuántos de sus últimos títulos son de mitología (ej. 24/31).
+- **estado**: empieza en `nuevo`. Cámbialo tú a mano (`clonando`,
+  `descartado`, `ya_vigilado`...). El rastreador no pisa lo que escribas.
 - **notas**: campo libre para ti. Tampoco se pisa.
 
 ## Cómo volver a buscar canales nuevos
 
 ```
 pip install yt-dlp
-python3 tools/discover.py
+python3 tools/discover.py escanear    # 15-25 min: busca y mide canales
+python3 tools/discover.py volcar      # escribe data/creators.csv
 ```
 
-Tarda unos 10-15 minutos. Solo añade canales nuevos; lo ya revisado se queda como esté.
+Con Claude: pídele que revise `data/candidatos.json` título a título y que
+ejecute `volcar --veredictos data/veredictos.json`. Filtra mejor que las
+palabras clave solas.
 
-## Límites conocidos
+## Facebook: cómo llega
 
-- **Facebook no se puede rastrear directamente** (pide iniciar sesión). Las páginas de Facebook llegan por dos vías: los enlaces que los propios canales de YouTube/TikTok publican, y la investigación web guardada en `data/seeds_*.csv`.
-- **TikTok no tiene buscador abierto.** Se verifican los perfiles enlazados desde YouTube y los que coinciden con el nombre del creador.
-- Los seguidores de Facebook casi nunca se pueden leer sin sesión.
+Facebook no deja buscar sin iniciar sesión, así que las páginas llegan por
+dos vías:
+
+1. Los enlaces que los propios canales de YouTube publican.
+2. Investigación web (Claude), guardada en `data/seeds_facebook_research.csv`.
+
+Para búsqueda automática dentro de Facebook o para rellenar los seguidores
+que faltan hace falta Apify (de pago).
 
 ## Para excluir tus canales ya vigilados
 
-Añade sus URLs a `data/creators.csv` con estado `ya_vigilado` (o el que
-prefieras). En la siguiente pasada se conservará ese estado.
+Pon su fila en `data/creators.csv` con estado `ya_vigilado` (o el que
+prefieras). Las pasadas siguientes conservan ese estado.
