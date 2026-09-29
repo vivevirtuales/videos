@@ -18,5 +18,11 @@
  {"id": "UCy6v91210figZrnMvfnhZhw", "nombre": "Mysteries of Mythology", "es_mitologia": true, "en_ingles": true, "razon": "Mitología y folclore mundial en la práctica totalidad de los títulos"},
  {"id": "UCMNO5DyuBpWRlWwTjqaP6RQ", "nombre": "Mythology Explained", "es_mitologia": true, "en_ingles": true, "razon": "Mitología griega y lore religioso como eje; mayoría clara de títulos"},
  {"id": "UCEvNGwLX3AKUAZRwTqrhhSQ", "nombre": "VGS - Video Game Sophistry", "es_mitologia": false, "en_ingles": true, "razon": "Videojuegos (God of War, Resident Evil), no mitología"},
- {"id": "UCziXARv_BiHZdT7tBVbQXPw", "nombre": "ClipsyBox", "es_mitologia": false, "en_ingles": true, "razon": "Escenas eliminadas de Marvel, no mitología"}
+ {"id": "UCziXARv_BiHZdT7tBVbQXPw", "nombre": "ClipsyBox", "es_mitologia": false, "en_ingles": true, "razon": "Escenas eliminadas de Marvel, no mitología"},
+ {"id": "UClb8OEBhrUnZgMWc0wTmMvg", "nombre": "Indian Monk", "es_mitologia": true, "en_ingles": true, "razon": "Mitología hindú y mundial narrada en inglés; mayoría clara de títulos de mitología"},
+ {"id": "UCaG7EroyixUjRKZF-FnVq4Q", "nombre": "Library of Thoth", "es_mitologia": false, "en_ingles": true, "razon": "Conspiración new-age (Anunnaki, federación galáctica), no mitología"},
+ {"id": "UCRjxhVtRUKgSmPYGRJuTaOw", "nombre": "Judicium", "es_mitologia": false, "en_ingles": true, "razon": "SCP y leyendas urbanas de internet, no mitología"},
+ {"id": "UC2t5bjwHdUX4vM2g8TRDq5g", "nombre": "League of Legends", "es_mitologia": false, "en_ingles": true, "razon": "Canal oficial del videojuego; 'Legends' engañó al filtro de palabras"},
+ {"id": "UC9wVygRwm4Ye46aYlowxKQg", "nombre": "Between Fog & Fen", "es_mitologia": false, "en_ingles": true, "razon": "Brujería y paganismo nórdico moderno como práctica, no historias de mitología"},
+ {"id": "UCXFhQTlKLBGzt1nrmKqw6zg", "nombre": "Mystik Manor", "es_mitologia": false, "en_ingles": true, "razon": "Mayoría de 'secretos oscuros' de Disney y cultura pop; el folclore es minoría"}
 ]
